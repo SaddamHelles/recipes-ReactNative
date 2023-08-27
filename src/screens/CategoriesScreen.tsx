@@ -5,19 +5,20 @@ import Category from '../models/category';
 import CategoryGridTile from '../components/CategoryGridTile';
 import { RootStackParamList } from '../../App';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import Meal from '../models/meal';
 
 const CategoriesScreen: React.FC<
     Partial<NativeStackScreenProps<RootStackParamList>>
 > = ({ navigation }) => {
-    const handleOnPress = () => {
-        navigation?.navigate('Meals');
+    const handleOnPress = (item: Category) => {
+        navigation?.navigate('Meals', { categoryId: item.id });
     };
     const renderedCategoryItem = (item: Category) => {
         return (
             <CategoryGridTile
                 title={item.title}
                 color={item.color}
-                onPress={handleOnPress}
+                onPress={() => handleOnPress(item)}
             />
         );
     };
