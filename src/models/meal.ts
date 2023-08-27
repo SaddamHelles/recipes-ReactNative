@@ -14,6 +14,10 @@ class Meal {
         public isVegetarian: boolean,
         public isLactoseFree: boolean
     ) {}
+
+    public get mealTitle() {
+        return this.title;
+    }
 }
 
 export default Meal;

@@ -1,13 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CategoriesScreen from './src/screens/CategoriesScreen';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import MealsOverviewScreen from './src/screens/MealsOverviewScreen';
+
+export type RootStackParamList = {
+    Categories: undefined;
+    Meals: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
     return (
-        <SafeAreaView>
-            <CategoriesScreen />
+        <>
             <StatusBar style="auto" />
-        </SafeAreaView>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Categories">
+                    <Stack.Screen
+                        name="Categories"
+                        component={CategoriesScreen}
+                    />
+                    <Stack.Screen
+                        name="Meals"
+                        component={MealsOverviewScreen}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </>
     );
 }
 
