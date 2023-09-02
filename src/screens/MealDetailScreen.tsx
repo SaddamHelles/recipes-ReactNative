@@ -14,24 +14,39 @@ import MealDetails from '../components/MealDetails';
 import Subtitle from '../components/mealDetail/Subtitle';
 import List from '../components/mealDetail/List';
 import IconButton from '../components/IconButton';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    addFavorite,
+    removeFavorite,
+} from '../features/favorites/favoritesSlice';
+import { RootState } from '../app/store';
 
 const MealDetailScreen: React.FC<
     NativeStackScreenProps<RootStackParamList, 'MealDetail'>
 > = ({ route, navigation }) => {
+    const dispatch = useDispatch();
+    const { ids } = useSelector((state: RootState) => state.favorite);
     const { mealId } = route.params;
 
     const selectMeal = MEALS.find(meal => meal.id === mealId);
 
+    const mealIsFavorite = ids.includes(mealId);
     const handleHeaderButtonPress = () => {
         console.log('handleHeaderButtonPress clicked!');
+        if (mealIsFavorite) {
+            dispatch(removeFavorite({ id: mealId }));
+        } else {
+            dispatch(addFavorite({ id: mealId }));
+        }
     };
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => {
                 return (
                     <IconButton
-                        icon={'star'}
-                        color="white"
+                        icon={mealIsFavorite ? 'star' : 'star-outline'}
+                        color={mealIsFavorite ? 'gold' : 'white'}
                         onPress={handleHeaderButtonPress}
                     />
                 );
